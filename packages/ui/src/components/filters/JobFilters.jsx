@@ -41,11 +41,11 @@ const JobFilters = ({ filters, onFiltersChange, jobs }) => {
   }
 
   return (
-    <div className="filters">
-      <div className="filter-group">
-        <label>Poste</label>
+    <div className="flex flex-wrap items-center gap-4 mb-8">
+      <div className="flex flex-col">
+        <label className="text-sm font-medium text-gray-600 mb-1">Poste</label>
         <select
-          className="select"
+          className="px-3 py-2 border border-gray-300 rounded-lg bg-white text-sm min-w-[140px] focus:outline-none focus:ring-2 focus:ring-violet-500 focus:border-transparent"
           value={filters.jobType}
           onChange={(e) => handleFilterChange("jobType", e.target.value)}
         >
@@ -58,10 +58,10 @@ const JobFilters = ({ filters, onFiltersChange, jobs }) => {
         </select>
       </div>
 
-      <div className="filter-group">
-        <label>Contrat</label>
+      <div className="flex flex-col">
+        <label className="text-sm font-medium text-gray-600 mb-1">Contrat</label>
         <select
-          className="select"
+          className="px-3 py-2 border border-gray-300 rounded-lg bg-white text-sm min-w-[120px] focus:outline-none focus:ring-2 focus:ring-violet-500 focus:border-transparent"
           value={filters.contractType}
           onChange={(e) => handleFilterChange("contractType", e.target.value)}
         >
@@ -74,10 +74,10 @@ const JobFilters = ({ filters, onFiltersChange, jobs }) => {
         </select>
       </div>
 
-      <div className="filter-group">
-        <label>Télétravail</label>
+      <div className="flex flex-col">
+        <label className="text-sm font-medium text-gray-600 mb-1">Télétravail</label>
         <select
-          className="select"
+          className="px-3 py-2 border border-gray-300 rounded-lg bg-white text-sm min-w-[140px] focus:outline-none focus:ring-2 focus:ring-violet-500 focus:border-transparent"
           value={filters.remoteType}
           onChange={(e) => handleFilterChange("remoteType", e.target.value)}
         >
@@ -90,10 +90,10 @@ const JobFilters = ({ filters, onFiltersChange, jobs }) => {
         </select>
       </div>
 
-      <div className="filter-group">
-        <label>Trier par</label>
+      <div className="flex flex-col ml-auto">
+        <label className="text-sm font-medium text-gray-600 mb-1">Trier par :</label>
         <select
-          className="select"
+          className="px-3 py-2 border border-gray-300 rounded-lg bg-white text-sm min-w-[100px] focus:outline-none focus:ring-2 focus:ring-violet-500 focus:border-transparent"
           value={filters.sortBy}
           onChange={(e) => handleFilterChange("sortBy", e.target.value)}
         >
