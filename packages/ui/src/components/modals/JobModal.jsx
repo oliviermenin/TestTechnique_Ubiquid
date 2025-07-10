@@ -1,4 +1,5 @@
 "use client"
+
 import { useState, useEffect } from "react"
 import { X } from "lucide-react"
 
@@ -77,19 +78,32 @@ const JobModal = ({ job, onSave, onClose }) => {
   }
 
   return (
-    <div className="modal-overlay" onClick={handleOverlayClick}>
-      <div className="modal">
-        <div className="modal-header">
-          <h2 className="modal-title">{job ? "Modifier une offre d'emploi" : "Ajouter une offre d'emploi"}</h2>
-          <button onClick={onClose} className="btn btn-secondary" style={{ padding: "0.5rem", minWidth: "auto" }}>
+    <div
+      className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4"
+      onClick={handleOverlayClick}
+    >
+      <div className="bg-white rounded-xl p-6 w-full max-w-md max-h-[90vh] overflow-y-auto">
+        <div className="flex items-center justify-between mb-6">
+          <h2 className="text-xl font-semibold text-gray-900">
+            {job ? "Modifier une offre d'emploi" : "Ajouter une offre d'emploi"}
+          </h2>
+          <button onClick={onClose} className="p-2 text-gray-400 hover:text-gray-600 transition-colors">
             <X size={20} />
           </button>
         </div>
 
-        <form onSubmit={handleSubmit}>
-          <div className="form-group">
-            <label htmlFor="jobType">Nom du poste</label>
-            <select id="jobType" name="jobType" value={formData.jobType} onChange={handleChange} className="form-input">
+        <form onSubmit={handleSubmit} className="space-y-4">
+          <div>
+            <label htmlFor="jobType" className="block text-sm font-medium text-gray-700 mb-1">
+              Nom du poste
+            </label>
+            <select
+              id="jobType"
+              name="jobType"
+              value={formData.jobType}
+              onChange={handleChange}
+              className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-violet-500 focus:border-transparent"
+            >
               <option value="front">Dev Frontend</option>
               <option value="back">Dev Backend</option>
               <option value="fullstack">Dev Fullstack</option>
@@ -97,46 +111,48 @@ const JobModal = ({ job, onSave, onClose }) => {
             </select>
           </div>
 
-          <div className="form-group">
-            <label htmlFor="companyName">Entreprise</label>
+          <div>
+            <label htmlFor="companyName" className="block text-sm font-medium text-gray-700 mb-1">
+              Entreprise
+            </label>
             <input
               type="text"
               id="companyName"
               name="companyName"
               value={formData.companyName}
               onChange={handleChange}
-              className="form-input"
+              className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-violet-500 focus:border-transparent"
               placeholder="Nom de l'entreprise"
             />
-            {errors.companyName && (
-              <div style={{ color: "#ef4444", fontSize: "0.875rem", marginTop: "0.25rem" }}>{errors.companyName}</div>
-            )}
+            {errors.companyName && <p className="text-red-500 text-sm mt-1">{errors.companyName}</p>}
           </div>
 
-          <div className="form-group">
-            <label htmlFor="location">Ville</label>
+          <div>
+            <label htmlFor="location" className="block text-sm font-medium text-gray-700 mb-1">
+              Ville
+            </label>
             <input
               type="text"
               id="location"
               name="location"
               value={formData.location}
               onChange={handleChange}
-              className="form-input"
+              className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-violet-500 focus:border-transparent"
               placeholder="Ville"
             />
-            {errors.location && (
-              <div style={{ color: "#ef4444", fontSize: "0.875rem", marginTop: "0.25rem" }}>{errors.location}</div>
-            )}
+            {errors.location && <p className="text-red-500 text-sm mt-1">{errors.location}</p>}
           </div>
 
-          <div className="form-group">
-            <label htmlFor="contractType">Type de contrat</label>
+          <div>
+            <label htmlFor="contractType" className="block text-sm font-medium text-gray-700 mb-1">
+              Type de contrat
+            </label>
             <select
               id="contractType"
               name="contractType"
               value={formData.contractType}
               onChange={handleChange}
-              className="form-input"
+              className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-violet-500 focus:border-transparent"
             >
               <option value="cdi">CDI</option>
               <option value="cdd">CDD</option>
@@ -144,31 +160,33 @@ const JobModal = ({ job, onSave, onClose }) => {
             </select>
           </div>
 
-          <div className="form-group">
-            <label htmlFor="salary">Salaire</label>
+          <div>
+            <label htmlFor="salary" className="block text-sm font-medium text-gray-700 mb-1">
+              Salaire
+            </label>
             <input
               type="number"
               id="salary"
               name="salary"
               value={formData.salary}
               onChange={handleChange}
-              className="form-input"
+              className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-violet-500 focus:border-transparent"
               placeholder="Salaire annuel en €"
               min="0"
             />
-            {errors.salary && (
-              <div style={{ color: "#ef4444", fontSize: "0.875rem", marginTop: "0.25rem" }}>{errors.salary}</div>
-            )}
+            {errors.salary && <p className="text-red-500 text-sm mt-1">{errors.salary}</p>}
           </div>
 
-          <div className="form-group">
-            <label htmlFor="remoteType">Télétravail</label>
+          <div>
+            <label htmlFor="remoteType" className="block text-sm font-medium text-gray-700 mb-1">
+              Télétravail
+            </label>
             <select
               id="remoteType"
               name="remoteType"
               value={formData.remoteType}
               onChange={handleChange}
-              className="form-input"
+              className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-violet-500 focus:border-transparent"
             >
               <option value="">Non spécifié</option>
               <option value="fullRemote">Télétravail total</option>
@@ -177,13 +195,35 @@ const JobModal = ({ job, onSave, onClose }) => {
             </select>
           </div>
 
-          <div className="modal-actions">
-            <button type="button" className="btn btn-secondary" onClick={onClose}>
-              Annuler
-            </button>
-            <button type="submit" className="btn btn-primary">
-              {job ? "Enregistrer l'annonce" : "Créer l'annonce"}
-            </button>
+          <div className="flex justify-between pt-4">
+            {job && (
+              <button
+                type="button"
+                className="px-4 py-2 text-red-500 font-medium hover:text-red-600 transition-colors"
+                onClick={() => {
+                  if (window.confirm("Êtes-vous sûr de vouloir supprimer cette offre ?")) {
+                    onClose()
+                  }
+                }}
+              >
+                Supprimer
+              </button>
+            )}
+            <div className="flex space-x-3 ml-auto">
+              <button
+                type="button"
+                onClick={onClose}
+                className="px-4 py-2 text-gray-600 font-medium hover:text-gray-800 transition-colors"
+              >
+                Annuler
+              </button>
+              <button
+                type="submit"
+                className="px-6 py-2 bg-violet-500 text-white font-medium rounded-lg hover:bg-violet-600 transition-colors"
+              >
+                {job ? "Enregistrer l'annonce" : "Créer l'annonce"}
+              </button>
+            </div>
           </div>
         </form>
       </div>
@@ -191,4 +231,4 @@ const JobModal = ({ job, onSave, onClose }) => {
   )
 }
 
-export default JobModal;
+export default JobModal
