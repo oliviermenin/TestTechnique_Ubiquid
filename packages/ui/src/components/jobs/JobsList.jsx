@@ -46,6 +46,10 @@ const JobsList = ({ jobs, onEdit, onDelete }) => {
   }
 
   const getAvatarColor = (companyName) => {
+    if (!companyName || typeof companyName !== "string") {
+      return "bg-gray-100 text-gray-700"
+    }
+
     const colors = [
       "bg-violet-100 text-violet-700",
       "bg-blue-100 text-blue-700",
@@ -104,7 +108,7 @@ const JobsList = ({ jobs, onEdit, onDelete }) => {
               <div
                 className={`w-10 h-10 rounded-lg flex items-center justify-center font-semibold text-lg ${getAvatarColor(job.companyName)}`}
               >
-                {job.companyName.charAt(0).toUpperCase()}
+                {job.companyName ? job.companyName.charAt(0).toUpperCase() : "?"}
               </div>
 
               <div className="flex-1">
