@@ -113,10 +113,11 @@ const JobsList = ({ jobs, onEdit, onDelete }) => {
                   {getRemoteTypeBadge(job.remoteType)}
                 </div>
 
-                <div className="flex items-center text-sm text-gray-600 space-x-4">
+                <div className="flex items-center text-sm text-gray-600">
                   <span>
                     {job.companyName} - {job.location}
                   </span>
+                  <span className="mx-3 text-gray-400">———</span>
                   <span>{getContractTypeLabel(job.contractType)}</span>
                 </div>
               </div>

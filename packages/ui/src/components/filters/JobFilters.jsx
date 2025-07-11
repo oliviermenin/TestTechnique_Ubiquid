@@ -1,7 +1,7 @@
 "use client"
 
 import { useState } from "react"
-import { X, ChevronDown } from 'lucide-react'
+import { X, ChevronDown } from "lucide-react"
 
 const JobFilters = ({ filters, onFiltersChange, jobs }) => {
   const [openDropdown, setOpenDropdown] = useState(null)
@@ -57,12 +57,14 @@ const JobFilters = ({ filters, onFiltersChange, jobs }) => {
     return labels[remoteType] || remoteType
   }
 
-  const CustomDropdown = ({ label, value, options, onChange, dropdownKey }) => (
+  const CustomDropdown = ({ label, value, options, onChange, dropdownKey, isSort = false }) => (
     <div className="relative">
       <button
         type="button"
         onClick={() => toggleDropdown(dropdownKey)}
-        className="bg-gray-100 border-0 rounded-lg px-4 py-2.5 pr-10 text-sm text-gray-800 font-medium focus:outline-none focus:ring-2 focus:ring-violet-500 focus:bg-white cursor-pointer min-w-[100px] flex items-center justify-between"
+        className={`bg-gray-100 border-0 rounded-lg px-4 py-2.5 pr-10 text-sm font-medium focus:outline-none focus:ring-2 focus:ring-violet-500 focus:bg-white cursor-pointer min-w-[100px] flex items-center justify-between ${
+          isSort ? "text-violet-500" : "text-gray-800"
+        }`}
       >
         <span>{value ? options.find((opt) => opt.value === value)?.label : label}</span>
         <div className="w-6 h-6 bg-violet-100 rounded-full flex items-center justify-center ml-2">
@@ -100,9 +102,9 @@ const JobFilters = ({ filters, onFiltersChange, jobs }) => {
   ]
 
   // Contrat sans "Tous"
-  const contractTypeOptions = uniqueContractTypes.map((type) => ({ 
-    value: type, 
-    label: getContractTypeLabel(type) 
+  const contractTypeOptions = uniqueContractTypes.map((type) => ({
+    value: type,
+    label: getContractTypeLabel(type),
   }))
 
   // Télétravail avec "Non spécifié" en dernier
@@ -154,6 +156,7 @@ const JobFilters = ({ filters, onFiltersChange, jobs }) => {
             options={sortOptions}
             onChange={(value) => handleFilterChange("sortBy", value)}
             dropdownKey="sortBy"
+            isSort={true}
           />
         </div>
       </div>
