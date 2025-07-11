@@ -1,10 +1,19 @@
 "use client"
 
+import { X } from "lucide-react"
+
 const JobFilters = ({ filters, onFiltersChange, jobs }) => {
   const handleFilterChange = (key, value) => {
     onFiltersChange({
       ...filters,
       [key]: value,
+    })
+  }
+
+  const clearFilter = (key) => {
+    onFiltersChange({
+      ...filters,
+      [key]: "",
     })
   }
 
@@ -17,7 +26,7 @@ const JobFilters = ({ filters, onFiltersChange, jobs }) => {
       front: "Dev Frontend",
       back: "Dev Backend",
       fullstack: "Dev Fullstack",
-      manager: "Project / Product Management",
+      manager: "Projet / Product Management",
     }
     return labels[jobType] || jobType
   }
@@ -41,66 +50,127 @@ const JobFilters = ({ filters, onFiltersChange, jobs }) => {
   }
 
   return (
-    <div className="flex flex-wrap items-center gap-4 mb-8">
-      <div className="flex flex-col">
-        <label className="text-sm font-medium text-gray-600 mb-1">Poste</label>
-        <select
-          className="px-3 py-2 border border-gray-300 rounded-lg bg-white text-sm min-w-[140px] focus:outline-none focus:ring-2 focus:ring-violet-500 focus:border-transparent"
-          value={filters.jobType}
-          onChange={(e) => handleFilterChange("jobType", e.target.value)}
-        >
-          <option value="">Tous les postes</option>
-          {uniqueJobTypes.map((jobType) => (
-            <option key={jobType} value={jobType}>
-              {getJobTypeLabel(jobType)}
-            </option>
-          ))}
-        </select>
+    <div className="mb-6">
+      <div className="flex items-center justify-between mb-4">
+        <div className="flex items-center gap-4">
+          <div className="relative">
+            <select
+              className="appearance-none bg-white border border-gray-300 rounded-lg px-3 py-2 pr-8 text-sm text-gray-700 focus:outline-none focus:ring-2 focus:ring-violet-500 focus:border-violet-500 cursor-pointer min-w-[100px]"
+              value={filters.jobType}
+              onChange={(e) => handleFilterChange("jobType", e.target.value)}
+            >
+              <option value="">Poste</option>
+              {uniqueJobTypes.map((jobType) => (
+                <option key={jobType} value={jobType}>
+                  {getJobTypeLabel(jobType)}
+                </option>
+              ))}
+            </select>
+            <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2">
+              <svg className="h-4 w-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+              </svg>
+            </div>
+          </div>
+
+          <div className="relative">
+            <select
+              className="appearance-none bg-white border border-gray-300 rounded-lg px-3 py-2 pr-8 text-sm text-gray-700 focus:outline-none focus:ring-2 focus:ring-violet-500 focus:border-violet-500 cursor-pointer min-w-[100px]"
+              value={filters.contractType}
+              onChange={(e) => handleFilterChange("contractType", e.target.value)}
+            >
+              <option value="">Contrat</option>
+              {uniqueContractTypes.map((contractType) => (
+                <option key={contractType} value={contractType}>
+                  {getContractTypeLabel(contractType)}
+                </option>
+              ))}
+            </select>
+            <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2">
+              <svg className="h-4 w-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+              </svg>
+            </div>
+          </div>
+
+          <div className="relative">
+            <select
+              className="appearance-none bg-white border border-gray-300 rounded-lg px-3 py-2 pr-8 text-sm text-gray-700 focus:outline-none focus:ring-2 focus:ring-violet-500 focus:border-violet-500 cursor-pointer min-w-[120px]"
+              value={filters.remoteType}
+              onChange={(e) => handleFilterChange("remoteType", e.target.value)}
+            >
+              <option value="">Télétravail</option>
+              {uniqueRemoteTypes.map((remoteType) => (
+                <option key={remoteType} value={remoteType}>
+                  {getRemoteTypeLabel(remoteType)}
+                </option>
+              ))}
+            </select>
+            <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2">
+              <svg className="h-4 w-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+              </svg>
+            </div>
+          </div>
+        </div>
+
+        <div className="flex items-center gap-3">
+          <span className="text-sm text-gray-600">Trier par :</span>
+          <div className="relative">
+            <select
+              className="appearance-none bg-white border border-gray-300 rounded-lg px-3 py-2 pr-8 text-sm text-gray-700 focus:outline-none focus:ring-2 focus:ring-violet-500 focus:border-violet-500 cursor-pointer"
+              value={filters.sortBy}
+              onChange={(e) => handleFilterChange("sortBy", e.target.value)}
+            >
+              <option value="date">Date</option>
+              <option value="salary">Salaire</option>
+            </select>
+            <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2">
+              <svg className="h-4 w-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+              </svg>
+            </div>
+          </div>
+        </div>
       </div>
 
-      <div className="flex flex-col">
-        <label className="text-sm font-medium text-gray-600 mb-1">Contrat</label>
-        <select
-          className="px-3 py-2 border border-gray-300 rounded-lg bg-white text-sm min-w-[120px] focus:outline-none focus:ring-2 focus:ring-violet-500 focus:border-transparent"
-          value={filters.contractType}
-          onChange={(e) => handleFilterChange("contractType", e.target.value)}
-        >
-          <option value="">Tous les contrats</option>
-          {uniqueContractTypes.map((contractType) => (
-            <option key={contractType} value={contractType}>
-              {getContractTypeLabel(contractType)}
-            </option>
-          ))}
-        </select>
-      </div>
-
-      <div className="flex flex-col">
-        <label className="text-sm font-medium text-gray-600 mb-1">Télétravail</label>
-        <select
-          className="px-3 py-2 border border-gray-300 rounded-lg bg-white text-sm min-w-[140px] focus:outline-none focus:ring-2 focus:ring-violet-500 focus:border-transparent"
-          value={filters.remoteType}
-          onChange={(e) => handleFilterChange("remoteType", e.target.value)}
-        >
-          <option value="">Tous les types</option>
-          {uniqueRemoteTypes.map((remoteType) => (
-            <option key={remoteType} value={remoteType}>
-              {getRemoteTypeLabel(remoteType)}
-            </option>
-          ))}
-        </select>
-      </div>
-
-      <div className="flex flex-col ml-auto">
-        <label className="text-sm font-medium text-gray-600 mb-1">Trier par :</label>
-        <select
-          className="px-3 py-2 border border-gray-300 rounded-lg bg-white text-sm min-w-[100px] focus:outline-none focus:ring-2 focus:ring-violet-500 focus:border-transparent"
-          value={filters.sortBy}
-          onChange={(e) => handleFilterChange("sortBy", e.target.value)}
-        >
-          <option value="date">Date</option>
-          <option value="salary">Salaire</option>
-        </select>
-      </div>
+      {(filters.jobType || filters.contractType || filters.remoteType) && (
+        <div className="flex flex-wrap items-center gap-2">
+          {filters.jobType && (
+            <div className="inline-flex items-center gap-2 px-3 py-1 bg-violet-100 text-violet-800 text-sm rounded-full">
+              {getJobTypeLabel(filters.jobType)}
+              <button
+                onClick={() => clearFilter("jobType")}
+                className="hover:bg-violet-200 rounded-full p-0.5 transition-colors"
+              >
+                <X size={12} />
+              </button>
+            </div>
+          )}
+          {filters.contractType && (
+            <div className="inline-flex items-center gap-2 px-3 py-1 bg-violet-100 text-violet-800 text-sm rounded-full">
+              {getContractTypeLabel(filters.contractType)}
+              <button
+                onClick={() => clearFilter("contractType")}
+                className="hover:bg-violet-200 rounded-full p-0.5 transition-colors"
+              >
+                <X size={12} />
+              </button>
+            </div>
+          )}
+          {filters.remoteType && (
+            <div className="inline-flex items-center gap-2 px-3 py-1 bg-violet-100 text-violet-800 text-sm rounded-full">
+              {getRemoteTypeLabel(filters.remoteType)}
+              <button
+                onClick={() => clearFilter("remoteType")}
+                className="hover:bg-violet-200 rounded-full p-0.5 transition-colors"
+              >
+                <X size={12} />
+              </button>
+            </div>
+          )}
+        </div>
+      )}
     </div>
   )
 }

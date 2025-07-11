@@ -34,6 +34,7 @@ const JobModal = ({ job, onSave, onClose }) => {
       ...prev,
       [name]: value,
     }))
+
     if (errors[name]) {
       setErrors((prev) => ({
         ...prev,
@@ -61,6 +62,7 @@ const JobModal = ({ job, onSave, onClose }) => {
 
   const handleSubmit = (e) => {
     e.preventDefault()
+
     if (validateForm()) {
       const jobData = {
         ...formData,
@@ -71,122 +73,95 @@ const JobModal = ({ job, onSave, onClose }) => {
     }
   }
 
-  const handleOverlayClick = (e) => {
-    if (e.target === e.currentTarget) {
-      onClose()
-    }
-  }
-
   return (
-    <div
-      className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4"
-      onClick={handleOverlayClick}
-    >
-      <div className="bg-white rounded-xl p-6 w-full max-w-md max-h-[90vh] overflow-y-auto">
-        <div className="flex items-center justify-between mb-6">
-          <h2 className="text-xl font-semibold text-gray-900">
-            {job ? "Modifier une offre d'emploi" : "Ajouter une offre d'emploi"}
-          </h2>
-          <button onClick={onClose} className="p-2 text-gray-400 hover:text-gray-600 transition-colors">
+    <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
+      <div className="bg-white rounded-lg shadow-xl w-full max-w-md max-h-[90vh] overflow-y-auto">
+        <div className="flex items-center justify-between p-4 border-b">
+          <h2 className="text-lg font-semibold">{job ? "Modifier une offre" : "Nouvelle offre"}</h2>
+          <button onClick={onClose} className="p-1 text-gray-400 hover:text-gray-600">
             <X size={20} />
           </button>
         </div>
 
-        <form onSubmit={handleSubmit} className="space-y-4">
+        <form onSubmit={handleSubmit} className="p-4 space-y-4">
           <div>
-            <label htmlFor="jobType" className="block text-sm font-medium text-gray-700 mb-1">
-              Nom du poste
-            </label>
+            <label className="block text-sm font-medium text-gray-700 mb-1">Type de poste</label>
             <select
-              id="jobType"
               name="jobType"
               value={formData.jobType}
               onChange={handleChange}
-              className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-violet-500 focus:border-transparent"
+              className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-violet-500"
             >
               <option value="front">Dev Frontend</option>
               <option value="back">Dev Backend</option>
               <option value="fullstack">Dev Fullstack</option>
-              <option value="manager">Project / Product Management</option>
+              <option value="manager">Projet / Product Management</option>
             </select>
           </div>
 
           <div>
-            <label htmlFor="companyName" className="block text-sm font-medium text-gray-700 mb-1">
-              Entreprise
-            </label>
+            <label className="block text-sm font-medium text-gray-700 mb-1">Entreprise</label>
             <input
               type="text"
-              id="companyName"
               name="companyName"
               value={formData.companyName}
               onChange={handleChange}
-              className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-violet-500 focus:border-transparent"
+              className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-violet-500"
               placeholder="Nom de l'entreprise"
             />
             {errors.companyName && <p className="text-red-500 text-sm mt-1">{errors.companyName}</p>}
           </div>
 
           <div>
-            <label htmlFor="location" className="block text-sm font-medium text-gray-700 mb-1">
-              Ville
-            </label>
+            <label className="block text-sm font-medium text-gray-700 mb-1">Ville</label>
             <input
               type="text"
-              id="location"
               name="location"
               value={formData.location}
               onChange={handleChange}
-              className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-violet-500 focus:border-transparent"
+              className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-violet-500"
               placeholder="Ville"
             />
             {errors.location && <p className="text-red-500 text-sm mt-1">{errors.location}</p>}
           </div>
 
-          <div>
-            <label htmlFor="contractType" className="block text-sm font-medium text-gray-700 mb-1">
-              Type de contrat
-            </label>
-            <select
-              id="contractType"
-              name="contractType"
-              value={formData.contractType}
-              onChange={handleChange}
-              className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-violet-500 focus:border-transparent"
-            >
-              <option value="cdi">CDI</option>
-              <option value="cdd">CDD</option>
-              <option value="stage">Stage</option>
-            </select>
+          <div className="grid grid-cols-2 gap-4">
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-1">Contrat</label>
+              <select
+                name="contractType"
+                value={formData.contractType}
+                onChange={handleChange}
+                className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-violet-500"
+              >
+                <option value="cdi">CDI</option>
+                <option value="cdd">CDD</option>
+                <option value="stage">Stage</option>
+              </select>
+            </div>
+
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-1">Salaire (€)</label>
+              <input
+                type="number"
+                name="salary"
+                value={formData.salary}
+                onChange={handleChange}
+                className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-violet-500"
+                placeholder="45000"
+                min="0"
+              />
+              {errors.salary && <p className="text-red-500 text-sm mt-1">{errors.salary}</p>}
+            </div>
           </div>
 
           <div>
-            <label htmlFor="salary" className="block text-sm font-medium text-gray-700 mb-1">
-              Salaire
-            </label>
-            <input
-              type="number"
-              id="salary"
-              name="salary"
-              value={formData.salary}
-              onChange={handleChange}
-              className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-violet-500 focus:border-transparent"
-              placeholder="Salaire annuel en €"
-              min="0"
-            />
-            {errors.salary && <p className="text-red-500 text-sm mt-1">{errors.salary}</p>}
-          </div>
-
-          <div>
-            <label htmlFor="remoteType" className="block text-sm font-medium text-gray-700 mb-1">
-              Télétravail
-            </label>
+            <label className="block text-sm font-medium text-gray-700 mb-1">Télétravail</label>
             <select
-              id="remoteType"
               name="remoteType"
               value={formData.remoteType}
               onChange={handleChange}
-              className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-violet-500 focus:border-transparent"
+              className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-violet-500"
             >
               <option value="">Non spécifié</option>
               <option value="fullRemote">Télétravail total</option>
@@ -195,35 +170,13 @@ const JobModal = ({ job, onSave, onClose }) => {
             </select>
           </div>
 
-          <div className="flex justify-between pt-4">
-            {job && (
-              <button
-                type="button"
-                className="px-4 py-2 text-red-500 font-medium hover:text-red-600 transition-colors"
-                onClick={() => {
-                  if (window.confirm("Êtes-vous sûr de vouloir supprimer cette offre ?")) {
-                    onClose()
-                  }
-                }}
-              >
-                Supprimer
-              </button>
-            )}
-            <div className="flex space-x-3 ml-auto">
-              <button
-                type="button"
-                onClick={onClose}
-                className="px-4 py-2 text-gray-600 font-medium hover:text-gray-800 transition-colors"
-              >
-                Annuler
-              </button>
-              <button
-                type="submit"
-                className="px-6 py-2 bg-violet-500 text-white font-medium rounded-lg hover:bg-violet-600 transition-colors"
-              >
-                {job ? "Enregistrer l'annonce" : "Créer l'annonce"}
-              </button>
-            </div>
+          <div className="flex justify-end space-x-3 pt-4">
+            <button type="button" onClick={onClose} className="px-4 py-2 text-gray-600 hover:text-gray-800">
+              Annuler
+            </button>
+            <button type="submit" className="px-4 py-2 bg-violet-500 hover:bg-violet-600 text-white rounded-lg">
+              {job ? "Enregistrer" : "Créer"}
+            </button>
           </div>
         </form>
       </div>
