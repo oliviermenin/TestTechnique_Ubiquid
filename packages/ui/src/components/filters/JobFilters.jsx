@@ -1,13 +1,17 @@
 "use client"
 
-import { X } from "lucide-react"
+import { useState } from "react"
+import { X, ChevronDown } from 'lucide-react'
 
 const JobFilters = ({ filters, onFiltersChange, jobs }) => {
+  const [openDropdown, setOpenDropdown] = useState(null)
+
   const handleFilterChange = (key, value) => {
     onFiltersChange({
       ...filters,
       [key]: value,
     })
+    setOpenDropdown(null)
   }
 
   const clearFilter = (key) => {
@@ -15,6 +19,10 @@ const JobFilters = ({ filters, onFiltersChange, jobs }) => {
       ...filters,
       [key]: "",
     })
+  }
+
+  const toggleDropdown = (dropdownName) => {
+    setOpenDropdown(openDropdown === dropdownName ? null : dropdownName)
   }
 
   const uniqueJobTypes = [...new Set(jobs.map((job) => job.jobType))].filter(Boolean)
@@ -49,101 +57,104 @@ const JobFilters = ({ filters, onFiltersChange, jobs }) => {
     return labels[remoteType] || remoteType
   }
 
+  const CustomDropdown = ({ label, value, options, onChange, dropdownKey }) => (
+    <div className="relative">
+      <button
+        type="button"
+        onClick={() => toggleDropdown(dropdownKey)}
+        className="bg-gray-100 border-0 rounded-lg px-4 py-2.5 pr-10 text-sm text-gray-800 font-medium focus:outline-none focus:ring-2 focus:ring-violet-500 focus:bg-white cursor-pointer min-w-[100px] flex items-center justify-between"
+      >
+        <span>{value ? options.find((opt) => opt.value === value)?.label : label}</span>
+        <div className="w-6 h-6 bg-violet-100 rounded-full flex items-center justify-center ml-2">
+          <ChevronDown className="h-3 w-3 text-violet-500" />
+        </div>
+      </button>
+
+      {openDropdown === dropdownKey && (
+        <div className="absolute top-full left-0 mt-1 min-w-[200px] bg-white border border-gray-200 rounded-lg shadow-lg z-50 py-2">
+          {options.map((option) => (
+            <button
+              key={option.value}
+              type="button"
+              onClick={() => onChange(option.value)}
+              className="w-full px-4 py-2 text-left text-sm text-gray-700 hover:bg-gray-50 flex items-center gap-3 whitespace-nowrap"
+            >
+              <div className="w-4 h-4 border border-gray-300 rounded flex items-center justify-center flex-shrink-0">
+                {value === option.value && <div className="w-2 h-2 bg-violet-500 rounded"></div>}
+              </div>
+              <span className="truncate">{option.label}</span>
+            </button>
+          ))}
+        </div>
+      )}
+    </div>
+  )
+
+  // Ordre fixe pour les postes selon l'image
+  const jobTypeOptions = [
+    { value: "", label: "Tous" },
+    { value: "back", label: "Dev Backend" },
+    { value: "fullstack", label: "Dev Fullstack" },
+    { value: "front", label: "Dev Frontend" },
+    { value: "manager", label: "Projet / Product Management" },
+  ]
+
+  // Contrat sans "Tous"
+  const contractTypeOptions = uniqueContractTypes.map((type) => ({ 
+    value: type, 
+    label: getContractTypeLabel(type) 
+  }))
+
+  // Télétravail avec "Non spécifié" en dernier
+  const remoteTypeOptions = [
+    ...uniqueRemoteTypes.map((type) => ({ value: type, label: getRemoteTypeLabel(type) })),
+    { value: "", label: "Non spécifié" },
+  ]
+
+  const sortOptions = [
+    { value: "date", label: "Par Date" },
+    { value: "salary", label: "Par Salaire" },
+  ]
+
   return (
     <div className="mb-6">
       {/* Filters Row */}
       <div className="flex items-center justify-between mb-4">
         <div className="flex items-center gap-4">
-          <div className="relative">
-            <select
-              className="bg-gray-100 border-0 rounded-lg px-4 py-2.5 pr-10 text-sm text-gray-800 font-medium focus:outline-none focus:ring-2 focus:ring-violet-500 focus:bg-white cursor-pointer min-w-[100px]"
-              style={{ backgroundImage: "none", appearance: "none" }}
-              value={filters.jobType}
-              onChange={(e) => handleFilterChange("jobType", e.target.value)}
-            >
-              <option value="">Poste</option>
-              {uniqueJobTypes.map((jobType) => (
-                <option key={jobType} value={jobType}>
-                  {getJobTypeLabel(jobType)}
-                </option>
-              ))}
-            </select>
-            <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2">
-              <div className="w-6 h-6 bg-violet-100 rounded-full flex items-center justify-center">
-                <svg className="h-3 w-3 text-violet-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
-                </svg>
-              </div>
-            </div>
-          </div>
+          <CustomDropdown
+            label="Poste"
+            value={filters.jobType}
+            options={jobTypeOptions}
+            onChange={(value) => handleFilterChange("jobType", value)}
+            dropdownKey="jobType"
+          />
 
-          <div className="relative">
-            <select
-              className="bg-gray-100 border-0 rounded-lg px-4 py-2.5 pr-10 text-sm text-gray-800 font-medium focus:outline-none focus:ring-2 focus:ring-violet-500 focus:bg-white cursor-pointer min-w-[100px]"
-              style={{ backgroundImage: "none", appearance: "none" }}
-              value={filters.contractType}
-              onChange={(e) => handleFilterChange("contractType", e.target.value)}
-            >
-              <option value="">Contrat</option>
-              {uniqueContractTypes.map((contractType) => (
-                <option key={contractType} value={contractType}>
-                  {getContractTypeLabel(contractType)}
-                </option>
-              ))}
-            </select>
-            <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2">
-              <div className="w-6 h-6 bg-violet-100 rounded-full flex items-center justify-center">
-                <svg className="h-3 w-3 text-violet-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
-                </svg>
-              </div>
-            </div>
-          </div>
+          <CustomDropdown
+            label="Contrat"
+            value={filters.contractType}
+            options={contractTypeOptions}
+            onChange={(value) => handleFilterChange("contractType", value)}
+            dropdownKey="contractType"
+          />
 
-          <div className="relative">
-            <select
-              className="bg-gray-100 border-0 rounded-lg px-4 py-2.5 pr-10 text-sm text-gray-800 font-medium focus:outline-none focus:ring-2 focus:ring-violet-500 focus:bg-white cursor-pointer min-w-[120px]"
-              style={{ backgroundImage: "none", appearance: "none" }}
-              value={filters.remoteType}
-              onChange={(e) => handleFilterChange("remoteType", e.target.value)}
-            >
-              <option value="">Télétravail</option>
-              {uniqueRemoteTypes.map((remoteType) => (
-                <option key={remoteType} value={remoteType}>
-                  {getRemoteTypeLabel(remoteType)}
-                </option>
-              ))}
-            </select>
-            <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2">
-              <div className="w-6 h-6 bg-violet-100 rounded-full flex items-center justify-center">
-                <svg className="h-3 w-3 text-violet-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
-                </svg>
-              </div>
-            </div>
-          </div>
+          <CustomDropdown
+            label="Télétravail"
+            value={filters.remoteType}
+            options={remoteTypeOptions}
+            onChange={(value) => handleFilterChange("remoteType", value)}
+            dropdownKey="remoteType"
+          />
         </div>
 
         <div className="flex items-center gap-3">
           <span className="text-sm text-gray-900 font-medium">Trier par :</span>
-          <div className="relative">
-            <select
-              className="bg-gray-100 border-0 rounded-lg px-4 py-2.5 pr-10 text-sm text-violet-500 font-medium focus:outline-none focus:ring-2 focus:ring-violet-500 focus:bg-white cursor-pointer"
-              style={{ backgroundImage: "none", appearance: "none" }}
-              value={filters.sortBy}
-              onChange={(e) => handleFilterChange("sortBy", e.target.value)}
-            >
-              <option value="date">Date</option>
-              <option value="salary">Salaire</option>
-            </select>
-            <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2">
-              <div className="w-6 h-6 bg-violet-100 rounded-full flex items-center justify-center">
-                <svg className="h-3 w-3 text-violet-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
-                </svg>
-              </div>
-            </div>
-          </div>
+          <CustomDropdown
+            label="Date"
+            value={filters.sortBy}
+            options={sortOptions}
+            onChange={(value) => handleFilterChange("sortBy", value)}
+            dropdownKey="sortBy"
+          />
         </div>
       </div>
 
