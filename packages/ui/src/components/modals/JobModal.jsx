@@ -82,9 +82,9 @@ const JobModal = ({ job, onSave, onClose, onDelete }) => {
 
   return (
     <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
-      <div className="bg-white rounded-2xl shadow-xl w-full max-w-2xl max-h-[90vh] overflow-y-auto">
-        {/* Header */}
-        <div className="flex items-center justify-between p-8 border-b border-gray-100 rounded-t-2xl">
+
+      <div className="modal-container bg-white shadow-xl w-full max-w-2xl max-h-[90vh] overflow-y-auto">
+        <div className="flex items-center justify-between p-8 border-b border-gray-100">
           <h2 className="text-xl font-semibold text-gray-900 flex-1 text-center">
             {job ? "Modifier une offre d'emploi" : "Nouvelle offre d'emploi"}
           </h2>
@@ -97,7 +97,6 @@ const JobModal = ({ job, onSave, onClose, onDelete }) => {
         </div>
 
         <form onSubmit={handleSubmit} className="p-8 space-y-6">
-          {/* Nom du poste */}
           <div>
             <label className="block text-sm font-medium text-gray-700 mb-2">Nom du poste</label>
             <div className="relative">
@@ -105,7 +104,7 @@ const JobModal = ({ job, onSave, onClose, onDelete }) => {
                 name="jobType"
                 value={formData.jobType}
                 onChange={handleChange}
-                className="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-violet-500 focus:border-violet-500 appearance-none text-sm"
+                className="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-violet-500 focus:border-violet-500 text-sm"
               >
                 <option value="front">Dev Frontend</option>
                 <option value="back">Dev Backend</option>
@@ -120,7 +119,6 @@ const JobModal = ({ job, onSave, onClose, onDelete }) => {
             </div>
           </div>
 
-          {/* Entreprise */}
           <div>
             <label className="block text-sm font-medium text-gray-700 mb-2">Entreprise</label>
             <input
@@ -134,7 +132,6 @@ const JobModal = ({ job, onSave, onClose, onDelete }) => {
             {errors.companyName && <p className="text-red-500 text-sm mt-2">{errors.companyName}</p>}
           </div>
 
-          {/* Ville */}
           <div>
             <label className="block text-sm font-medium text-gray-700 mb-2">Ville</label>
             <input
@@ -148,7 +145,6 @@ const JobModal = ({ job, onSave, onClose, onDelete }) => {
             {errors.location && <p className="text-red-500 text-sm mt-2">{errors.location}</p>}
           </div>
 
-          {/* Type de contrat */}
           <div>
             <label className="block text-sm font-medium text-gray-700 mb-2">Type de contrat</label>
             <div className="relative">
@@ -156,7 +152,7 @@ const JobModal = ({ job, onSave, onClose, onDelete }) => {
                 name="contractType"
                 value={formData.contractType}
                 onChange={handleChange}
-                className="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-violet-500 focus:border-violet-500 appearance-none text-sm"
+                className="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-violet-500 focus:border-violet-500 text-sm"
               >
                 <option value="cdi">CDI</option>
                 <option value="cdd">CDD</option>
@@ -170,7 +166,6 @@ const JobModal = ({ job, onSave, onClose, onDelete }) => {
             </div>
           </div>
 
-          {/* Salaire */}
           <div>
             <label className="block text-sm font-medium text-gray-700 mb-2">Salaire</label>
             <input
@@ -184,7 +179,6 @@ const JobModal = ({ job, onSave, onClose, onDelete }) => {
             {errors.salary && <p className="text-red-500 text-sm mt-2">{errors.salary}</p>}
           </div>
 
-          {/* Télétravail */}
           <div>
             <label className="block text-sm font-medium text-gray-700 mb-2">Télétravail</label>
             <div className="relative">
@@ -192,7 +186,7 @@ const JobModal = ({ job, onSave, onClose, onDelete }) => {
                 name="remoteType"
                 value={formData.remoteType}
                 onChange={handleChange}
-                className="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-violet-500 focus:border-violet-500 appearance-none text-sm"
+                className="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-violet-500 focus:border-violet-500 text-sm"
               >
                 <option value="">Non spécifié</option>
                 <option value="fullRemote">Télétravail total</option>
@@ -207,7 +201,6 @@ const JobModal = ({ job, onSave, onClose, onDelete }) => {
             </div>
           </div>
 
-          {/* Boutons */}
           <div className="flex justify-center items-center pt-6 relative">
             {job && (
               <button

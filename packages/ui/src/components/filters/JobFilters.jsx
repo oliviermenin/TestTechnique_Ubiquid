@@ -92,7 +92,6 @@ const JobFilters = ({ filters, onFiltersChange, jobs }) => {
     </div>
   )
 
-  // Ordre fixe pour les postes selon l'image
   const jobTypeOptions = [
     { value: "", label: "Tous" },
     { value: "back", label: "Dev Backend" },
@@ -101,13 +100,11 @@ const JobFilters = ({ filters, onFiltersChange, jobs }) => {
     { value: "manager", label: "Projet / Product Management" },
   ]
 
-  // Contrat sans "Tous"
   const contractTypeOptions = uniqueContractTypes.map((type) => ({
     value: type,
     label: getContractTypeLabel(type),
   }))
 
-  // Télétravail avec "Non spécifié" en dernier
   const remoteTypeOptions = [
     ...uniqueRemoteTypes.map((type) => ({ value: type, label: getRemoteTypeLabel(type) })),
     { value: "", label: "Non spécifié" },
@@ -120,7 +117,6 @@ const JobFilters = ({ filters, onFiltersChange, jobs }) => {
 
   return (
     <div className="mb-6">
-      {/* Filters Row */}
       <div className="flex items-center justify-between mb-4">
         <div className="flex items-center gap-4">
           <CustomDropdown
@@ -161,7 +157,6 @@ const JobFilters = ({ filters, onFiltersChange, jobs }) => {
         </div>
       </div>
 
-      {/* Active Filters */}
       {(filters.jobType || filters.contractType || filters.remoteType) && (
         <div className="flex flex-wrap items-center gap-2">
           {filters.jobType && (
