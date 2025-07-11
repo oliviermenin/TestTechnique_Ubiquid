@@ -1,6 +1,4 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+@import "tailwindcss";
 
 * {
   margin: 0;
@@ -8,10 +6,12 @@
   box-sizing: border-box;
 }
 
-@layer base {
-  body {
-    @apply bg-gray-50 text-gray-900 font-sans antialiased;
-  }
+body {
+  background-color: #f9fafb;
+  color: #111827;
+  font-family: system-ui, -apple-system, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 
 .container {
@@ -33,22 +33,20 @@
   color: #1e293b;
 }
 
-@layer components {
-  .btn {
-    @apply px-4 py-2 rounded-lg font-medium transition-colors duration-200 inline-flex items-center gap-2;
-  }
+.btn {
+  @apply px-4 py-2 rounded-lg font-medium transition-colors duration-200 inline-flex items-center gap-2;
+}
 
-  .btn-primary {
-    @apply bg-violet-500 text-white hover:bg-violet-600;
-  }
+.btn-primary {
+  @apply bg-violet-500 text-white hover:bg-violet-600;
+}
 
-  .btn-secondary {
-    @apply bg-gray-100 text-gray-700 hover:bg-gray-200;
-  }
+.btn-secondary {
+  @apply bg-gray-100 text-gray-700 hover:bg-gray-200;
+}
 
-  .btn-danger {
-    @apply bg-red-500 text-white hover:bg-red-600;
-  }
+.btn-danger {
+  @apply bg-red-500 text-white hover:bg-red-600;
 }
 
 .filters {
@@ -252,4 +250,12 @@
   padding: 1rem;
   border-radius: 0.5rem;
   margin-bottom: 1rem;
+}
+
+.test-red {
+  background-color: red !important;
+  color: white !important;
+  padding: 20px !important;
+  margin: 20px 0 !important;
+  border-radius: 8px !important;
 }

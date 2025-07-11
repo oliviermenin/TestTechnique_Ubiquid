@@ -6,6 +6,7 @@ import JobsList from "./components/jobs/JobsList"
 import JobFilters from "./components/filters/JobFilters"
 import JobModal from "./components/modals/JobModal"
 import { jobsApi } from "./services/api"
+// import './index.css'
 
 function App() {
   const [jobs, setJobs] = useState([])
