@@ -46,7 +46,14 @@ const JobsList = ({ jobs, onEdit, onDelete }) => {
   }
 
   const getAvatarColor = (companyName) => {
-    const colors = ["bg-violet-500", "bg-blue-500", "bg-emerald-500", "bg-amber-500", "bg-rose-500", "bg-indigo-500"]
+    const colors = [
+      "bg-violet-100 text-violet-700",
+      "bg-blue-100 text-blue-700",
+      "bg-emerald-100 text-emerald-700",
+      "bg-amber-100 text-amber-700",
+      "bg-rose-100 text-rose-700",
+      "bg-indigo-100 text-indigo-700",
+    ]
     const index = companyName.charCodeAt(0) % colors.length
     return colors[index]
   }
@@ -95,7 +102,7 @@ const JobsList = ({ jobs, onEdit, onDelete }) => {
           <div className="flex items-center justify-between">
             <div className="flex items-center space-x-4 flex-1">
               <div
-                className={`w-10 h-10 rounded-lg flex items-center justify-center text-white font-semibold text-lg ${getAvatarColor(job.companyName)}`}
+                className={`w-10 h-10 rounded-lg flex items-center justify-center font-semibold text-lg ${getAvatarColor(job.companyName)}`}
               >
                 {job.companyName.charAt(0).toUpperCase()}
               </div>
@@ -117,13 +124,16 @@ const JobsList = ({ jobs, onEdit, onDelete }) => {
 
             <div className="text-right flex items-center space-x-6">
               <div>
-                <div className="text-sm font-medium text-gray-900">Salaire {formatSalary(job.salary)}</div>
+                <div className="text-sm font-medium">
+                  <span className="text-gray-900">Salaire </span>
+                  <span className="text-violet-500">{formatSalary(job.salary)}</span>
+                </div>
                 <div className="text-xs text-gray-500">{formatDate(job.createdAt)}</div>
               </div>
 
               <button
                 onClick={() => onEdit(job)}
-                className="px-3 py-1.5 bg-violet-500 hover:bg-violet-600 text-white text-sm rounded-lg transition-colors"
+                className="px-3 py-1.5 bg-violet-100 hover:bg-violet-200 text-violet-700 border border-violet-700 text-sm font-medium rounded-lg transition-colors"
               >
                 Modifier
               </button>

@@ -78,13 +78,11 @@ function App() {
   }
 
   const handleDeleteJob = async (jobId) => {
-    if (window.confirm("Êtes-vous sûr de vouloir supprimer cette offre ?")) {
-      try {
-        await jobsApi.delete(jobId)
-        await loadJobs()
-      } catch (err) {
-        setError("Erreur lors de la suppression")
-      }
+    try {
+      await jobsApi.delete(jobId)
+      await loadJobs()
+    } catch (err) {
+      setError("Erreur lors de la suppression")
     }
   }
 
@@ -116,6 +114,7 @@ function App() {
   return (
     <div className="min-h-screen bg-gray-50">
       <div className="max-w-4xl mx-auto px-6 py-8">
+        {/* Header */}
         <div className="flex justify-between items-center mb-8">
           <h1 className="text-2xl font-semibold text-gray-900">Les jobs</h1>
           <button
@@ -149,7 +148,14 @@ function App() {
         <JobsList jobs={filteredJobs} onEdit={handleEditJob} onDelete={handleDeleteJob} />
       </div>
 
-      {showModal && <JobModal job={editingJob} onSave={handleSaveJob} onClose={() => setShowModal(false)} />}
+      {showModal && (
+        <JobModal
+          job={editingJob}
+          onSave={handleSaveJob}
+          onClose={() => setShowModal(false)}
+          onDelete={handleDeleteJob}
+        />
+      )}
     </div>
   )
 }

@@ -3,7 +3,7 @@
 import { useState, useEffect } from "react"
 import { X } from "lucide-react"
 
-const JobModal = ({ job, onSave, onClose }) => {
+const JobModal = ({ job, onSave, onClose, onDelete }) => {
   const [formData, setFormData] = useState({
     companyName: "",
     jobType: "fullstack",
@@ -73,109 +73,156 @@ const JobModal = ({ job, onSave, onClose }) => {
     }
   }
 
+  const handleDelete = () => {
+    if (window.confirm("Êtes-vous sûr de vouloir supprimer cette offre ?")) {
+      onDelete(job.id)
+      onClose()
+    }
+  }
+
   return (
     <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
-      <div className="bg-white rounded-lg shadow-xl w-full max-w-md max-h-[90vh] overflow-y-auto">
-        <div className="flex items-center justify-between p-4 border-b">
-          <h2 className="text-lg font-semibold">{job ? "Modifier une offre" : "Nouvelle offre"}</h2>
-          <button onClick={onClose} className="p-1 text-gray-400 hover:text-gray-600">
-            <X size={20} />
+      <div className="bg-white rounded-2xl shadow-xl w-full max-w-2xl max-h-[90vh] overflow-y-auto">
+        {/* Header */}
+        <div className="flex items-center justify-between p-8 border-b border-gray-100 rounded-t-2xl">
+          <h2 className="text-xl font-semibold text-gray-900 flex-1 text-center">
+            {job ? "Modifier une offre d'emploi" : "Nouvelle offre d'emploi"}
+          </h2>
+          <button
+            onClick={onClose}
+            className="p-2 text-white bg-violet-500 hover:bg-violet-600 rounded-full transition-colors"
+          >
+            <X size={16} />
           </button>
         </div>
 
-        <form onSubmit={handleSubmit} className="p-4 space-y-4">
+        <form onSubmit={handleSubmit} className="p-8 space-y-6">
+          {/* Nom du poste */}
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1">Type de poste</label>
-            <select
-              name="jobType"
-              value={formData.jobType}
-              onChange={handleChange}
-              className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-violet-500"
-            >
-              <option value="front">Dev Frontend</option>
-              <option value="back">Dev Backend</option>
-              <option value="fullstack">Dev Fullstack</option>
-              <option value="manager">Projet / Product Management</option>
-            </select>
+            <label className="block text-sm font-medium text-gray-700 mb-2">Nom du poste</label>
+            <div className="relative">
+              <select
+                name="jobType"
+                value={formData.jobType}
+                onChange={handleChange}
+                className="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-violet-500 focus:border-violet-500 appearance-none text-sm"
+              >
+                <option value="front">Dev Frontend</option>
+                <option value="back">Dev Backend</option>
+                <option value="fullstack">Dev Fullstack</option>
+                <option value="manager">Projet / Product Management</option>
+              </select>
+              <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-3">
+                <svg className="h-4 w-4 text-violet-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+                </svg>
+              </div>
+            </div>
           </div>
 
+          {/* Entreprise */}
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1">Entreprise</label>
+            <label className="block text-sm font-medium text-gray-700 mb-2">Entreprise</label>
             <input
               type="text"
               name="companyName"
               value={formData.companyName}
               onChange={handleChange}
-              className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-violet-500"
+              className="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-violet-500 focus:border-violet-500 text-sm"
               placeholder="Nom de l'entreprise"
             />
-            {errors.companyName && <p className="text-red-500 text-sm mt-1">{errors.companyName}</p>}
+            {errors.companyName && <p className="text-red-500 text-sm mt-2">{errors.companyName}</p>}
           </div>
 
+          {/* Ville */}
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1">Ville</label>
+            <label className="block text-sm font-medium text-gray-700 mb-2">Ville</label>
             <input
               type="text"
               name="location"
               value={formData.location}
               onChange={handleChange}
-              className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-violet-500"
+              className="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-violet-500 focus:border-violet-500 text-sm"
               placeholder="Ville"
             />
-            {errors.location && <p className="text-red-500 text-sm mt-1">{errors.location}</p>}
+            {errors.location && <p className="text-red-500 text-sm mt-2">{errors.location}</p>}
           </div>
 
-          <div className="grid grid-cols-2 gap-4">
-            <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">Contrat</label>
+          {/* Type de contrat */}
+          <div>
+            <label className="block text-sm font-medium text-gray-700 mb-2">Type de contrat</label>
+            <div className="relative">
               <select
                 name="contractType"
                 value={formData.contractType}
                 onChange={handleChange}
-                className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-violet-500"
+                className="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-violet-500 focus:border-violet-500 appearance-none text-sm"
               >
                 <option value="cdi">CDI</option>
                 <option value="cdd">CDD</option>
                 <option value="stage">Stage</option>
               </select>
-            </div>
-
-            <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">Salaire (€)</label>
-              <input
-                type="number"
-                name="salary"
-                value={formData.salary}
-                onChange={handleChange}
-                className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-violet-500"
-                placeholder="45000"
-                min="0"
-              />
-              {errors.salary && <p className="text-red-500 text-sm mt-1">{errors.salary}</p>}
+              <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-3">
+                <svg className="h-4 w-4 text-violet-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+                </svg>
+              </div>
             </div>
           </div>
 
+          {/* Salaire */}
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1">Télétravail</label>
-            <select
-              name="remoteType"
-              value={formData.remoteType}
+            <label className="block text-sm font-medium text-gray-700 mb-2">Salaire</label>
+            <input
+              type="text"
+              name="salary"
+              value={formData.salary}
               onChange={handleChange}
-              className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-violet-500"
-            >
-              <option value="">Non spécifié</option>
-              <option value="fullRemote">Télétravail total</option>
-              <option value="partial">Télétravail partiel</option>
-              <option value="ponctual">Télétravail ponctuel</option>
-            </select>
+              className="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-violet-500 focus:border-violet-500 text-sm"
+              placeholder="137k"
+            />
+            {errors.salary && <p className="text-red-500 text-sm mt-2">{errors.salary}</p>}
           </div>
 
-          <div className="flex justify-end space-x-3 pt-4">
-            <button type="button" onClick={onClose} className="px-4 py-2 text-gray-600 hover:text-gray-800">
-              Annuler
-            </button>
-            <button type="submit" className="px-4 py-2 bg-violet-500 hover:bg-violet-600 text-white rounded-lg">
-              {job ? "Enregistrer" : "Créer"}
+          {/* Télétravail */}
+          <div>
+            <label className="block text-sm font-medium text-gray-700 mb-2">Télétravail</label>
+            <div className="relative">
+              <select
+                name="remoteType"
+                value={formData.remoteType}
+                onChange={handleChange}
+                className="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-violet-500 focus:border-violet-500 appearance-none text-sm"
+              >
+                <option value="">Non spécifié</option>
+                <option value="fullRemote">Télétravail total</option>
+                <option value="partial">Télétravail partiel</option>
+                <option value="ponctual">Télétravail ponctuel</option>
+              </select>
+              <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-3">
+                <svg className="h-4 w-4 text-violet-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+                </svg>
+              </div>
+            </div>
+          </div>
+
+          {/* Boutons */}
+          <div className="flex justify-center items-center pt-6 relative">
+            {job && (
+              <button
+                type="button"
+                onClick={handleDelete}
+                className="absolute left-0 text-red-500 hover:text-red-600 font-medium transition-colors text-sm"
+              >
+                Supprimer
+              </button>
+            )}
+            <button
+              type="submit"
+              className="px-8 py-3 bg-violet-500 hover:bg-violet-600 text-white font-medium rounded-lg transition-colors text-sm min-w-[200px]"
+            >
+              {job ? "Enregistrer l'annonce" : "Créer l'annonce"}
             </button>
           </div>
         </form>
