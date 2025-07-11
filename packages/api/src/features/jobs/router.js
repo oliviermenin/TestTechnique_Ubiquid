@@ -1,8 +1,12 @@
-import { Router } from "express";
-import { list } from "./controllers/list";
+import { Router } from "express"
+import { list, create, update, deleteJob, getStats } from "./controllers/list.js"
 
-const JobsRouter = Router();
+const JobsRouter = Router()
 
-JobsRouter.get("/list", list);
+JobsRouter.get("/list", list)
+JobsRouter.post("/", create)
+JobsRouter.put("/:id", update)
+JobsRouter.delete("/:id", deleteJob)
+JobsRouter.get("/stats", getStats)
 
-export default JobsRouter;
+export default JobsRouter

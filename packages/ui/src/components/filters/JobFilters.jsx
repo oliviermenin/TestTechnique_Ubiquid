@@ -62,12 +62,12 @@ const JobFilters = ({ filters, onFiltersChange, jobs }) => {
       <button
         type="button"
         onClick={() => toggleDropdown(dropdownKey)}
-        className={`bg-gray-100 border-0 rounded-lg px-4 py-2.5 pr-10 text-sm font-medium focus:outline-none focus:ring-2 focus:ring-violet-500 focus:bg-white cursor-pointer min-w-[100px] flex items-center justify-between ${
-          isSort ? "text-violet-500" : "text-gray-800"
+        className={`bg-white border border-gray-300 rounded-lg px-4 py-2.5 pr-2 text-sm font-medium focus:outline-none focus:ring-2 focus:ring-violet-500 cursor-pointer min-w-[100px] flex items-center justify-between ${
+          isSort ? "text-violet-500 bg-transparent border-0" : "text-gray-900"
         }`}
       >
         <span>{value ? options.find((opt) => opt.value === value)?.label : label}</span>
-        <div className="w-6 h-6 bg-violet-100 rounded-full flex items-center justify-center ml-2">
+        <div className="w-6 h-6 bg-violet-100 rounded-full flex items-center justify-center ml-1">
           <ChevronDown className="h-3 w-3 text-violet-500" />
         </div>
       </button>
@@ -92,19 +92,21 @@ const JobFilters = ({ filters, onFiltersChange, jobs }) => {
     </div>
   )
 
+  // Ordre fixe pour les postes selon l'image
   const jobTypeOptions = [
-    { value: "", label: "Tous" },
     { value: "back", label: "Dev Backend" },
     { value: "fullstack", label: "Dev Fullstack" },
     { value: "front", label: "Dev Frontend" },
     { value: "manager", label: "Projet / Product Management" },
   ]
 
+  // Contrat sans "Tous"
   const contractTypeOptions = uniqueContractTypes.map((type) => ({
     value: type,
     label: getContractTypeLabel(type),
   }))
 
+  // Télétravail avec "Non spécifié" en dernier
   const remoteTypeOptions = [
     ...uniqueRemoteTypes.map((type) => ({ value: type, label: getRemoteTypeLabel(type) })),
     { value: "", label: "Non spécifié" },
@@ -160,7 +162,7 @@ const JobFilters = ({ filters, onFiltersChange, jobs }) => {
       {(filters.jobType || filters.contractType || filters.remoteType) && (
         <div className="flex flex-wrap items-center gap-2">
           {filters.jobType && (
-            <div className="inline-flex items-center gap-2 px-3 py-1.5 bg-transparent border border-violet-500 text-gray-900 text-sm rounded-full font-medium">
+            <div className="inline-flex items-center gap-2 px-3 py-1.5 bg-white border border-violet-500 text-gray-900 text-sm rounded-full font-medium">
               {getJobTypeLabel(filters.jobType)}
               <button
                 onClick={() => clearFilter("jobType")}
@@ -171,7 +173,7 @@ const JobFilters = ({ filters, onFiltersChange, jobs }) => {
             </div>
           )}
           {filters.contractType && (
-            <div className="inline-flex items-center gap-2 px-3 py-1.5 bg-transparent border border-violet-500 text-gray-900 text-sm rounded-full font-medium">
+            <div className="inline-flex items-center gap-2 px-3 py-1.5 bg-white border border-violet-500 text-gray-900 text-sm rounded-full font-medium">
               {getContractTypeLabel(filters.contractType)}
               <button
                 onClick={() => clearFilter("contractType")}
@@ -182,7 +184,7 @@ const JobFilters = ({ filters, onFiltersChange, jobs }) => {
             </div>
           )}
           {filters.remoteType && (
-            <div className="inline-flex items-center gap-2 px-3 py-1.5 bg-transparent border border-violet-500 text-gray-900 text-sm rounded-full font-medium">
+            <div className="inline-flex items-center gap-2 px-3 py-1.5 bg-white border border-violet-500 text-gray-900 text-sm rounded-full font-medium">
               {getRemoteTypeLabel(filters.remoteType)}
               <button
                 onClick={() => clearFilter("remoteType")}
